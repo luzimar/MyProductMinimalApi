@@ -1,0 +1,111 @@
+{
+	"info": {
+		"_postman_id": "982f5c34-8b58-4fad-8569-9ec270456322",
+		"name": "MyProductApi Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5106050"
+	},
+	"item": [
+		{
+			"name": "Get Products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5159/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5159",
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Products By Name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5159/product/{{productRequestedName}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5159",
+					"path": [
+						"product",
+						"{{productRequestedName}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"if(pm.iterationData.get(\"productRequestedName\") != undefined)",
+					"{",
+					"    var productRequestedName = pm.iterationData.get(\"productRequestedName\");",
+					"    pm.collectionVariables.set(\"productRequestedName\", productRequestedName);",
+					"",
+					"    var productExpectedName = pm.iterationData.get(\"productExpectedName\");",
+					"    pm.collectionVariables.set(\"productResponseName\", productExpectedName);",
+					"",
+					"    var productPrice = pm.iterationData.get(\"price\");",
+					"    pm.collectionVariables.set(\"productPrice\", productPrice);",
+					"}"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"var resultApi = pm.response.json();",
+					"",
+					"pm.test(\"Api Retorno OK\", function(){",
+					"    pm.response.to.be.ok;",
+					"    pm.response.to.json;",
+					"    pm.response.to.be.withBody;",
+					"})",
+					"",
+					"pm.test(\"Verificar nome do produto retornado pela api\", function(){",
+					"    pm.expect(resultApi.name).to.equal(pm.collectionVariables.get(\"productResponseName\"));",
+					"});",
+					"",
+					"pm.test(\"Verificar valor do produto retornado pela api\", function(){",
+					"    pm.expect(resultApi.price).to.eql(JSON.parse(pm.collectionVariables.get(\"productPrice\")));",
+					"});",
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "productRequestedName",
+			"value": "smart",
+			"type": "string"
+		},
+		{
+			"key": "productPrice",
+			"value": "800",
+			"type": "string"
+		},
+		{
+			"key": "productResponseName",
+			"value": "Smart TV",
+			"type": "string"
+		}
+	]
+}

@@ -1,0 +1,12 @@
+[
+	{
+		"productRequestedName": "smart",
+		"productExpectedName": "Smart TV",
+		"price": 800
+	},
+	{
+		"productRequestedName": "xbox",
+		"productExpectedName": "Xbox Series S",
+		"price": 1500
+	}
+]
