@@ -9,8 +9,8 @@ on:
 env:
   NOME_WEBAPP: myproductminimalapi
   DOCKERHUB_IMAGE: ${{ secrets.DOCKERHUB_USER }}/myproductminimalapi
-  CAMINHO_PROJETO_WEBAPP: ./MyProductMinimalApi
-  CAMINHO_TESTES: ./MyProductMinimalApi
+  CAMINHO_PROJETO_WEBAPP: ./
+  CAMINHO_TESTES: ./
 
 jobs:
   build-tests-push:
@@ -55,8 +55,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
-          context: ./MyProductMinimalApi
-          file: ./MyProductMinimalApi/Dockerfile
+          context: ./
+          file: ./Dockerfile
           push: true
           tags: |
             ${{ env.DOCKERHUB_IMAGE }}:latest
