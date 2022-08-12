@@ -23,7 +23,7 @@ jobs:
         docker build . --file Dockerfile --tag ${{ env.DOCKERHUB_IMAGE }}:latest        
     - name: Criação de container para testes com a API
       run: |
-        docker run --name api-testes -p 5000:80 -d ${{ env.DOCKERHUB_IMAGE }}:latest
+        docker run --name api-testes -p 5159:80 -d ${{ env.DOCKERHUB_IMAGE }}:latest
         docker container ls
     - name: Testes da API REST com Newman
       run: |
