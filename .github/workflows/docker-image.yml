@@ -28,7 +28,7 @@ jobs:
     - name: Testes da API REST com Newman
       run: |
         cd ${{ env.CAMINHO_TESTES }}
-        newman run MyProductApiCollection_postman_collection.json -d testes.json
+        newman run MyProductApiCollection_postman_collection.json -d mock_products_test.json
     - name: Login no Docker Hub
       uses: docker/login-action@v1.8.0
       with:
