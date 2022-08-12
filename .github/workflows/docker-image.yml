@@ -9,8 +9,8 @@ on:
 env:
   NOME_WEBAPP: myproductminimalapi
   DOCKERHUB_IMAGE: ${{ secrets.DOCKERHUB_USER }}/myproductminimalapi
-  CAMINHO_PROJETO_WEBAPP: ./MyProductApi
-  CAMINHO_TESTES: ./MyProductApi
+  CAMINHO_PROJETO_WEBAPP: ./MyProductMinimalApi
+  CAMINHO_TESTES: ./MyProductMinimalApi
 
 jobs:
   build-tests-push:
@@ -29,14 +29,14 @@ jobs:
       run: |
         cd ${{ env.CAMINHO_TESTES }}
         newman run MyProductApiCollection_postman_collection.json -d testes.json
-    - name: Login no Azure Container Registry
+    - name: Login no Docker Hub
       uses: docker/login-action@v1.8.0
       with:
         username: ${{ secrets.DOCKERHUB_USER }}
         password: ${{ secrets.DOCKERHUB_PWD }}
     - name: Geração de tag com número do Build e Push no Docker Hub
       run: |
-        docker tag ${{ env.IMAGEM_AZURECR }}:latest ${{ env.DOCKERHUB_IMAGE }}:$GITHUB_RUN_NUMBER
+        docker tag ${{ env.DOCKERHUB_IMAGE }}:latest ${{ env.DOCKERHUB_IMAGE }}:$GITHUB_RUN_NUMBER
         docker push --all-tags ${{ env.DOCKERHUB_IMAGE }}
   deployment-docker-hub:
     needs: [build-tests-push]
@@ -55,9 +55,9 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
-          context: ./MyProductApi
-          file: ./MyProductApi/Dockerfile
+          context: ./MyProductMinimalApi
+          file: ./MyProductMinimalApi/Dockerfile
           push: true
           tags: |
-            luzimar/conversao-peso-web:latest
-            luzimar/conversao-peso-web:${{ github.run_number }}
+            ${{ env.DOCKERHUB_IMAGE }}:latest
+            ${{ env.DOCKERHUB_IMAGE }}:${{ github.run_number }}
