@@ -1,4 +1,4 @@
-name: dotnet6-my-product-minimal-api
+name: Build and deploy image .NET Core app to Docker Hub
 
 on:
   push:

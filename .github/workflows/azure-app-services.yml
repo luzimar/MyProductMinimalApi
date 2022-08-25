@@ -1,4 +1,4 @@
-name: Build and deploy .NET Core app to Windows WebApp myproductapidotnet6
+name: Build and deploy .NET Core app to Azure App Services
 on:
   push:
     branches:
